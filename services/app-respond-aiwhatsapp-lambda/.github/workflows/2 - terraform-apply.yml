@@ -1,0 +1,43 @@
+name: "Terraform Apply"
+
+on:
+  workflow_call:
+    inputs:
+      TF_WORKSPACE:
+        required: true
+        type: string
+      CONFIG_DIRECTORY:
+        required: true
+        type: string
+      TF_CLOUD_ORGANIZATION:
+        required: true
+        type: string
+      
+env:
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+
+jobs:
+
+  terraform-apply:
+    name: "Terraform Apply"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init 
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false

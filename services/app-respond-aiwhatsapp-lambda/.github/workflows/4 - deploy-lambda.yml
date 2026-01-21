@@ -1,0 +1,73 @@
+name: "Build .NET 8 Lambda"
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: "Build .NET 8 Lambda"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Print Working Directory
+        run: |
+          ls -la
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.x
+
+      - name: Install Amazon.Lambda.Tools
+        run: dotnet tool install -g Amazon.Lambda.Tools
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Lambda Function
+        working-directory: src/MyLambdaProject
+        run: dotnet lambda package -o bin/release/net8.0/publish/lambda.zip
+
+      - name: Run Tests
+        run: dotnet test test/MyLambdaProject.Tests 
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lambda-package
+          path: src/MyLambdaProject/bin/release/net8.0/publish/lambda.zip
+
+      - name: List Artifacts         
+        run: ls -la src/MyLambdaProject/bin/release/net8.0/publish
+
+  deploy:
+    name: "Deploy Lambda"
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Print Working Directory
+        run: |
+          ls -la
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lambda-package
+          path: src/MyLambdaProject/bin/release/net8.0/publish
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  
+
+      - name: Upload to S3
+        run: aws s3 cp src/MyLambdaProject/bin/release/net8.0/publish/lambda.zip s3://${{ github.event.repository.name }}/lambda.zip

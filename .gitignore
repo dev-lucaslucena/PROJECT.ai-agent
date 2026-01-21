@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+.DS_Store
+appsettings.Production.json
+bin/
+obj/
+dist/
+coverage/
+node_modules/
+*.tfstate
+*.tfstate.*
+*.pem
+*.key
+/reports/
+.gitleaks*
+.trufflehog*

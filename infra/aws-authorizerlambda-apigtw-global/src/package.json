@@ -1,0 +1,12 @@
+{
+  "name": "authorizerlambda",
+  "version": "1.0.0",
+  "description": "Lambda Auth for Global API Gateway",
+  "main": "index.js",
+  "devDependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.658.1",
+    "aws-sdk": "^2.102.0",
+    "install": "^0.13.0",
+    "npm": "^10.8.3"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "version": "2.0",
+  "routeKey": "POST /api/inbound-ai/whatsapp",
+  "rawPath": "/api/inbound-ai/whatsapp",
+  "rawQueryString": "",
+  "headers": {
+    "accept": "*/*",
+    "accept-encoding": "gzip, deflate",
+    "content-length": "587",
+    "content-type": "application/json",
+    "host": "localhost:5000",
+    "user-agent": "Apache-HttpClient/4.5.x (Java/1.8.0_102)"
+  },
+  "requestContext": {
+    "accountId": "AAAAAAAAAAAA",
+    "apiId": "t2yh6sjnmk",
+    "domainName": "localhost:5000",
+    "domainPrefix": "http://",
+    "http": {
+      "method": "POST",
+      "path": "/api/inbound-ai/whatsapp",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "test-invoke-source-ip",
+      "userAgent": "Apache-HttpClient/4.5.x (Java/1.8.0_102)"
+    },
+    "requestId": "test-invoke-request",
+    "routeKey": "POST /api/inbound-ai/whatsapp",
+    "stage": "test-invoke-stage",
+    "time": "12/Mar/2023:19:03:58 +0000",
+    "timeEpoch": 1678653838000
+  },
+  "queryStringParameters": {},
+  "pathParameters": {
+    "proxy": "/api/inbound-ai/whatsapp"
+  },
+  "stageVariables": {},
+  "body": "{\"object\":\"whatsapp_business_account\",\"entry\":[{\"id\":\"8856996819413533\",\"changes\":[{\"value\":{\"messaging_product\":\"whatsapp\",\"metadata\":{\"display_phone_number\":\"16505553333\",\"phone_number_id\":\"27681414235104944\"},\"contacts\":[{\"profile\":{\"name\":\"Kerry Fisher\"},\"wa_id\":\"16315551234\"}],\"messages\":[{\"from\":\"16315551234\",\"id\":\"wamid.ABGGFlCGg0cvAgo-sJQh43L5Pe4W\",\"timestamp\":\"1603059201\",\"text\":{\"body\":\"Hello this is an answer\"},\"type\":\"text\"}]},\"field\":\"messages\"}]}],\"payload\":\"sample_payload\"}",
+  "isBase64Encoded": false
+}

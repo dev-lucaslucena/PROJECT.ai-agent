@@ -1,0 +1,40 @@
+openapi: "3.0.1"
+info:
+  title: "Global API"
+  description: "This is the global API for the account."
+  version: "1.1.6"
+servers:
+- url: "https://example1234.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "dev"
+  x-amazon-apigateway-endpoint-configuration:
+    disableExecuteApiEndpoint: false
+paths:
+  /api/inbound-ai/whatsapp:
+    $ref: "paths/inbound-ai/whatsapp.yaml"
+components:   
+  securitySchemes:
+    x-amazon-authorizerlambda-apigtw-global:
+      type: "apiKey"
+      name: "x-origin-verify"
+      in: "header"
+      x-amazon-apigateway-authorizer:
+        identitySource: "$request.header.x-origin-verify"
+        authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:authorizerlambda-apigtw-global/invocations"
+        authorizerPayloadFormatVersion: "2.0"
+        authorizerResultTtlInSeconds: 600
+        type: "request"
+        enableSimpleResponses: false
+    cognito:
+      type: "oauth2"
+      flows: {}
+      x-amazon-apigateway-authorizer:
+        identitySource: "$request.header.Authorization"
+        jwtConfiguration:
+          audience:
+          - "email"
+          - "openid"
+          - "profile"
+          issuer: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_F7RbmQpRP"
+        type: "jwt"   

@@ -1,0 +1,32 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /api/values",
+  "rawPath": "/api/values",
+  "rawQueryString": "",
+  "headers": {},
+  "requestContext": {
+    "accountId": "AAAAAAAAAAAA",
+    "apiId": "t2yh6sjnmk",
+    "domainName": "test-invoke-domain",
+    "domainPrefix": "test-invoke-prefix",
+    "http": {
+      "method": "GET",
+      "path": "/api/values",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "test-invoke-source-ip",
+      "userAgent": "Apache-HttpClient/4.5.x (Java/1.8.0_102)"
+    },
+    "requestId": "test-invoke-request",
+    "routeKey": "GET /api/values",
+    "stage": "test-invoke-stage",
+    "time": "12/Mar/2023:19:03:58 +0000",
+    "timeEpoch": 1678653838000
+  },
+  "queryStringParameters": {},
+  "pathParameters": {
+    "proxy": "api/values"
+  },
+  "stageVariables": {},
+  "body": null,
+  "isBase64Encoded": false
+}

@@ -1,0 +1,72 @@
+name: Monorepo CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+jobs:
+  dotnet-tests:
+    name: .NET Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Run tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r proj; do
+            echo "Testing $proj"
+            dotnet test "$proj"
+          done < <(find services -name '*Tests.csproj' -print)
+
+  node-checks:
+    name: Node Lint/Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+      - name: Install and test
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r pkg; do
+            dir="$(dirname "$pkg")"
+            echo "Installing in $dir"
+            if [ -f "$dir/package-lock.json" ]; then
+              (cd "$dir" && npm ci --no-audit --no-fund)
+            else
+              (cd "$dir" && npm install --no-audit --no-fund)
+            fi
+            (cd "$dir" && npm run lint --if-present)
+            (cd "$dir" && npm test --if-present)
+          done < <(find infra -name 'package.json' -print)
+
+  terraform-checks:
+    name: Terraform Fmt/Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Terraform fmt
+        run: terraform fmt -check -recursive infra
+      - name: Terraform validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r dir; do
+            echo "Validating $dir"
+            (cd "$dir" && terraform init -backend=false && terraform validate)
+          done < <(find infra -name '*.tf' -print0 | xargs -0 -n1 dirname | sort -u)

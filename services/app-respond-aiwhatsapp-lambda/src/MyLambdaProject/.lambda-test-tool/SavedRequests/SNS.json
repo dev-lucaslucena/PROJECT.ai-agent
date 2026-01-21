@@ -1,0 +1,22 @@
+{
+  "Records": [
+    {
+      "EventSource": "aws:sns",
+      "EventVersion": "1.0",
+      "EventSubscriptionArn": "arn:aws:sns:us-east-1:123456789012:MyTopic",
+      "Sns": {
+        "Type": "Notification",
+        "MessageId": "1",
+        "TopicArn": "arn:aws:sns:us-east-1:123456789012:MyTopic",
+        "Subject": "Test Subject",
+        "Message": "Hello from SNS!",
+        "Timestamp": "2023-10-01T12:00:00.000Z",
+        "SignatureVersion": "1",
+        "Signature": "EXAMPLE",
+        "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-12345678901234567890.pem",
+        "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:123456789012:MyTopic",
+        "MessageAttributes": {}
+      }
+    }
+  ]
+}

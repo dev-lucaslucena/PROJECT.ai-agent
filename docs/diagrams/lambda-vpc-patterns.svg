@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <rect x="20" y="20" width="1160" height="480" rx="14" fill="#f8fafc" stroke="#e2e8f0" />
+  <text x="40" y="55" font-family="Arial" font-size="20" fill="#0f172a">Lambda Networking Patterns</text>
+
+  <rect x="70" y="110" width="240" height="320" rx="10" fill="#fff" stroke="#cbd5e1" />
+  <text x="95" y="140" font-family="Arial" font-size="13" fill="#0f172a">No VPC</text>
+  <text x="95" y="170" font-family="Arial" font-size="12" fill="#475569">Fast cold starts</text>
+  <text x="95" y="190" font-family="Arial" font-size="12" fill="#475569">Public egress</text>
+
+  <rect x="340" y="110" width="240" height="320" rx="10" fill="#fff" stroke="#cbd5e1" />
+  <text x="365" y="140" font-family="Arial" font-size="13" fill="#0f172a">VPC + Public Subnet</text>
+  <text x="365" y="170" font-family="Arial" font-size="12" fill="#475569">NAT required</text>
+  <text x="365" y="190" font-family="Arial" font-size="12" fill="#475569">Internet egress</text>
+
+  <rect x="610" y="110" width="240" height="320" rx="10" fill="#fff" stroke="#cbd5e1" />
+  <text x="635" y="140" font-family="Arial" font-size="13" fill="#0f172a">VPC + Private Subnet</text>
+  <text x="635" y="170" font-family="Arial" font-size="12" fill="#475569">Private resources</text>
+  <text x="635" y="190" font-family="Arial" font-size="12" fill="#475569">NAT or VPC endpoints</text>
+
+  <rect x="880" y="110" width="240" height="320" rx="10" fill="#fff" stroke="#cbd5e1" />
+  <text x="905" y="140" font-family="Arial" font-size="13" fill="#0f172a">VPC Endpoints Only</text>
+  <text x="905" y="170" font-family="Arial" font-size="12" fill="#475569">No public egress</text>
+  <text x="905" y="190" font-family="Arial" font-size="12" fill="#475569">Private AWS access</text>
+</svg>

@@ -1,0 +1,23 @@
+name: "Production"
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  deploy-edgelambda:
+    uses: './.github/workflows/4 - edge-lambda-deploy.yml'
+    secrets: inherit
+  terraform-apply:
+    uses: ./.github/workflows/2 - terraform-apply.yml
+    with:
+      TF_WORKSPACE: "${{ vars.TF_WORKSPACE }}"
+      CONFIG_DIRECTORY: "${{ vars.CONFIG_DIRECTORY }}"
+      TF_CLOUD_ORGANIZATION: "${{ vars.TF_CLOUD_ORGANIZATION }}"
+    secrets: inherit
+    needs: deploy-edgelambda
