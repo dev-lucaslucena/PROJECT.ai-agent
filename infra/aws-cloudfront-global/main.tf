@@ -20,15 +20,15 @@ resource "aws_cloudfront_distribution" "cloudfront_global" {
   is_ipv6_enabled     = true
   comment             = "CloudFront distribution for Global API Gateway"
   default_root_object = ""
-  price_class = "PriceClass_100"
+  price_class         = "PriceClass_100"
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "apiGatewayGlobalOrigin"
 
-    cache_policy_id = data.aws_cloudfront_cache_policy.default.id
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.default.id
+    cache_policy_id            = data.aws_cloudfront_cache_policy.default.id
+    origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.default.id
     response_headers_policy_id = data.aws_cloudfront_response_headers_policy.default.id
 
     viewer_protocol_policy = "redirect-to-https"
@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "cloudfront_global" {
 
     lambda_function_association {
       event_type   = "viewer-request"
-      lambda_arn   = "${data.aws_lambda_function.lambda.qualified_arn}"
+      lambda_arn   = data.aws_lambda_function.lambda.qualified_arn
       include_body = true
     }
   }

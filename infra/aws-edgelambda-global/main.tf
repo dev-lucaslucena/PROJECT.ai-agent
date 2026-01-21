@@ -23,7 +23,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name = "${var.lambda_name}-lambda_policy"
+  name        = "${var.lambda_name}-lambda_policy"
   description = "IAM policy for ${var.lambda_name} Lambda execution"
 
   policy = jsonencode({
@@ -35,7 +35,7 @@ resource "aws_iam_policy" "lambda_policy" {
           "logs:CreateLogStream",
           "logs:PutLogEvents"
         ]
-        Effect = "Allow"
+        Effect   = "Allow"
         Resource = "*"
       },
       {
@@ -73,7 +73,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 resource "aws_lambda_permission" "apigtw_lambda" {
   statement_id  = "AllowExecutionFromCloudFront"
   action        = "lambda:InvokeFunction"
-  function_name = "${var.lambda_name}"
+  function_name = var.lambda_name
   principal     = "edgelambda.amazonaws.com"
 }
 
@@ -83,16 +83,16 @@ resource "aws_cloudwatch_log_group" "lambda_log_group" {
 }
 
 resource "aws_lambda_function" "lambda" {
-  s3_bucket        = "${var.repo_name}"
+  s3_bucket        = var.repo_name
   s3_key           = "lambda.zip"
-  function_name    = "${var.lambda_name}"
+  function_name    = var.lambda_name
   role             = aws_iam_role.lambda_role.arn
   handler          = "index.handler"
   runtime          = "nodejs18.x"
   memory_size      = 128
   timeout          = 5
   source_code_hash = data.aws_s3_object.lambda_zip.etag
-  publish = true
+  publish          = true
 
   logging_config {
     log_group  = aws_cloudwatch_log_group.lambda_log_group.name

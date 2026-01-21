@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_deployment" "dev" {
-  api_id = aws_apigatewayv2_api.apigtw_global.id  
+  api_id = aws_apigatewayv2_api.apigtw_global.id
 
   lifecycle {
     create_before_destroy = true
@@ -8,7 +8,7 @@ resource "aws_apigatewayv2_deployment" "dev" {
   triggers = {
     redeployment = timestamp()
   }
-  
+
   depends_on = [
     aws_apigatewayv2_api.apigtw_global
   ]
@@ -20,7 +20,7 @@ resource "aws_apigatewayv2_deployment" "prod" {
   lifecycle {
     create_before_destroy = true
   }
-  
+
   depends_on = [
     aws_apigatewayv2_api.apigtw_global
   ]
@@ -29,9 +29,9 @@ resource "aws_apigatewayv2_deployment" "prod" {
 # Create a stage for the API Gateway
 resource "aws_apigatewayv2_stage" "prod_stage" {
   deployment_id = aws_apigatewayv2_deployment.prod.id
-  api_id      = aws_apigatewayv2_api.apigtw_global.id
-  name        = "prod"
-  depends_on = [ aws_apigatewayv2_deployment.prod, aws_cloudwatch_log_group.api_logs_prod ]
+  api_id        = aws_apigatewayv2_api.apigtw_global.id
+  name          = "prod"
+  depends_on    = [aws_apigatewayv2_deployment.prod, aws_cloudwatch_log_group.api_logs_prod]
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_logs_prod.arn
@@ -50,20 +50,20 @@ resource "aws_apigatewayv2_stage" "prod_stage" {
   }
 
   route_settings {
-    route_key = "$default"
-    data_trace_enabled = false
+    route_key                = "$default"
+    data_trace_enabled       = false
     detailed_metrics_enabled = false
-    logging_level = "INFO"
-    throttling_burst_limit = 1000
-    throttling_rate_limit = 500
+    logging_level            = "INFO"
+    throttling_burst_limit   = 1000
+    throttling_rate_limit    = 500
   }
 }
 
 resource "aws_apigatewayv2_stage" "dev_stage" {
   deployment_id = aws_apigatewayv2_deployment.dev.id
-  api_id      = aws_apigatewayv2_api.apigtw_global.id
-  name        = "dev"
-  depends_on = [ aws_apigatewayv2_deployment.dev, aws_cloudwatch_log_group.api_logs_dev ]
+  api_id        = aws_apigatewayv2_api.apigtw_global.id
+  name          = "dev"
+  depends_on    = [aws_apigatewayv2_deployment.dev, aws_cloudwatch_log_group.api_logs_dev]
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_logs_dev.arn
@@ -82,11 +82,11 @@ resource "aws_apigatewayv2_stage" "dev_stage" {
   }
 
   route_settings {
-    route_key = "$default"
-    data_trace_enabled = false
+    route_key                = "$default"
+    data_trace_enabled       = false
     detailed_metrics_enabled = false
-    logging_level = "INFO"
-    throttling_burst_limit = 20
-    throttling_rate_limit = 5
+    logging_level            = "INFO"
+    throttling_burst_limit   = 20
+    throttling_rate_limit    = 5
   }
 }

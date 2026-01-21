@@ -21,7 +21,7 @@ resource "aws_budgets_budget" "monthly_budget" {
     threshold           = 100.0
     threshold_type      = "PERCENTAGE"
     subscriber_email_addresses = [
-      "lucas@lucaslucena.com" 
+      "lucas@lucaslucena.com"
     ]
     subscriber_sns_topic_arns = [
       aws_sns_topic.budget_alert.arn

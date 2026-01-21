@@ -7,6 +7,6 @@ resource "aws_dynamodb_table" "global-terraform-locks" {
   }
 
   hash_key = "LockID"
-  
+
   billing_mode = "PAY_PER_REQUEST"
 }

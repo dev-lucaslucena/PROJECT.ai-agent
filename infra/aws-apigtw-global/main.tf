@@ -10,7 +10,7 @@ resource "null_resource" "openapi_bundle_trigger" {
 }
 
 resource "aws_apigatewayv2_api" "apigtw_global" {
-  name          = "${var.gtw_name}"
+  name          = var.gtw_name
   protocol_type = "HTTP"
   body          = base64decode(data.external.openapi_bundle_content.result.content)
 
@@ -19,7 +19,7 @@ resource "aws_apigatewayv2_api" "apigtw_global" {
     allow_methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]
     allow_headers = ["Content-Type"]
     max_age       = 300
-  }  
+  }
 
   depends_on = [null_resource.openapi_bundle_trigger]
 }

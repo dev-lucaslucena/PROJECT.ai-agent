@@ -1,15 +1,15 @@
 resource "aws_iam_user" "terraform" {
-    name = "terraform"  
+  name = "terraform"
 }
 
 resource "aws_iam_user" "github" {
-    name = "github"  
+  name = "github"
 }
 
 resource "aws_iam_policy" "iac_policy" {
   name        = "iac"
   description = "IAM policy for IaC"
-  policy      = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {

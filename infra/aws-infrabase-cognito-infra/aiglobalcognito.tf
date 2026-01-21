@@ -25,7 +25,7 @@ resource "aws_cognito_user_pool_client" "aiglobalcognito" {
 
   allowed_oauth_flows_user_pool_client = true
 
-  allowed_oauth_flows = ["code"]
+  allowed_oauth_flows  = ["code"]
   allowed_oauth_scopes = ["email", "openid", "profile"]
 
   callback_urls = ["https://localhost.com/callback"]
@@ -35,35 +35,35 @@ resource "aws_cognito_user_pool_client" "aiglobalcognito" {
 
   prevent_user_existence_errors = "ENABLED"
 
-  depends_on = [ aws_cognito_identity_provider.google ]
+  depends_on = [aws_cognito_identity_provider.google]
 }
 
 # Identity providers configuration
 resource "aws_cognito_identity_provider" "google" {
-  user_pool_id               = aws_cognito_user_pool.aiglobalcognito.id
-  provider_name              = var.google_client_provider
-  provider_type              = var.google_client_provider
-  attribute_mapping          = {
+  user_pool_id  = aws_cognito_user_pool.aiglobalcognito.id
+  provider_name = var.google_client_provider
+  provider_type = var.google_client_provider
+  attribute_mapping = {
     email    = "email"
     username = "sub"
   }
   provider_details = {
-    client_id     = ""
-    client_secret = ""
+    client_id        = ""
+    client_secret    = ""
     authorize_scopes = "email profile openid"
   }
-  depends_on = [ aws_cognito_user_pool.aiglobalcognito ]
+  depends_on = [aws_cognito_user_pool.aiglobalcognito]
 }
 
 # Create Cognito Identity Pool to allow federated logins
 resource "aws_cognito_identity_pool" "aiglobalcognito" {
-  identity_pool_name = "aiglobalcognito-identity-pool"
+  identity_pool_name               = "aiglobalcognito-identity-pool"
   allow_unauthenticated_identities = false
 
   cognito_identity_providers {
-    client_id               = "${aws_cognito_user_pool_client.aiglobalcognito.id}"
-    provider_name           = "${aws_cognito_user_pool.aiglobalcognito.endpoint}"
+    client_id     = aws_cognito_user_pool_client.aiglobalcognito.id
+    provider_name = aws_cognito_user_pool.aiglobalcognito.endpoint
   }
 
-  depends_on = [ aws_cognito_user_pool_client.aiglobalcognito, aws_cognito_user_pool.aiglobalcognito ]
+  depends_on = [aws_cognito_user_pool_client.aiglobalcognito, aws_cognito_user_pool.aiglobalcognito]
 }
