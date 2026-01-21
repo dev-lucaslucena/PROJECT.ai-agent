@@ -2,7 +2,6 @@
 .env.*
 !.env.example
 .DS_Store
-appsettings.Production.json
 bin/
 obj/
 dist/
